@@ -357,7 +357,7 @@ def consultar_saida_matPrima(lote):
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
     cursor_entrada_mat_prima.execute(
-        f"SELECT quantidade FROM criar_ordem_producao WHERE lote_1={lote} or lote_2={lote} or lote_3={lote} or lote_4={lote}")
+        f"SELECT quantidade FROM criar_ordem_producao WHERE lote_1='{lote}' or lote_2='{lote}' or lote_3='{lote}' or lote_4='{lote}'")
     # Obter resultados
     t_janela = cursor_entrada_mat_prima.fetchall()
     # Fechar conexao
@@ -379,6 +379,34 @@ def TranfNomeEmLote(nome_materia):
     banco.close()
 
     return t_janela
+
+
+# Transformar um lote de materia prima em Nome da materia prima
+def transLoteEmNome(lote):
+    # Procurar um lote na tabela de entrada (entrada_materias_primas)
+    # Abrir conexao com o sqlite estoque
+    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    # Definir o cursor para mexer na tabela entrada_materias_primas
+    cursor_entrada_mat_prima = banco.cursor()
+    # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
+    cursor_entrada_mat_prima.execute(f"SELECT produto FROM entrada_materias_primas WHERE lote='{lote}'")
+    # retornamos todos os valores encontrados para dentro de rows
+    t_janela = cursor_entrada_mat_prima.fetchall()
+    # Fechar conexao
+    banco.close()
+
+    nomeDoLote = t_janela
+    # Se o nome do produto retornar vazio, passe vazio como resultado
+    if nomeDoLote == '':
+        return ''
+    else:
+        # Se nome do produto retornar diferente de vazio, tente encontrar o indice
+        try:
+            nomeDoLote = t_janela[0][0]
+            return nomeDoLote
+        # Se nao for possivel encontrar o indice, retorne vazio
+        except IndexError:
+            return ''
 
 
 def abrirTelaEstoque():

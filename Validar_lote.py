@@ -74,4 +74,11 @@ def verificar_produto_lote(lote=None):
 
 
 
+def verificarCategoriaMatPrima(MateriaPrima):
+    categoria = str(MateriaPrima).split(' ')[0]
+    print(categoria)
 
+    if categoria == 'Válvula':
+        categoria = 'Tampa'
+
+    return categoria
