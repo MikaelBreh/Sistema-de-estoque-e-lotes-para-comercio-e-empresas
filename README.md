@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sistema-de-estoque-e-lotes-para-comercio-e-empresas
  A simple system for managing batches in stock, for businesses and stores. Um sistema simples para controlar lotes no estoque, para empresas e comércios.
 
@@ -23,3 +24,6 @@
  ![Image](https://user-images.githubusercontent.com/114930328/241818074-b6899891-a213-49ad-9d3c-050b57ab1f67.png)
  ![Image](https://user-images.githubusercontent.com/114930328/241818180-ecb1689a-6f54-4143-b5cf-4415d657f102.png)
  ![Image](https://user-images.githubusercontent.com/114930328/241818345-253552e9-6135-405a-bb89-fc64cef153d9.png)
+=======
+# Controle-de-estoque-e-Lote-para-Empresas
+>>>>>>> d2215f9 (first commit)
