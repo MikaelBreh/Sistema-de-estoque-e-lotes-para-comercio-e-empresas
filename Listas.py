@@ -1,6 +1,8 @@
 # arquivo contente nome dos fornecedores, produtos
 # e outras informacoes que podem mudar
 
+categorias = ['Caixa', 'Frasco', 'Rótulo', 'Tampa', 'Todos']
+
 valores = ['Caixa 01', 'Caixa 02 ', 'Caixa 03', 'Caixa 04', 'Caixa 05',
            'Caixa 07', 'Caixa 08', 'Caixa 09', 'Caixa 10', 'Caixa 11 ',
            'Caixa 12', 'Caixa 22', 'Caixa 42', 'Caixa 43', 'Caixa 910',

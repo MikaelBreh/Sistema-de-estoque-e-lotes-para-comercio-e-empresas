@@ -14,15 +14,14 @@ def Estoque():
             janela1.close()
             return False
             break
-        # Quando queremos ir para o menu principal
-        if event == 'Entrar':
-            if values['usuario'] == 'mikael' and values['senha'] == '12349':
-                print('Acessando estoque')
-                break
 
         if event == 'Consultar Estoque':
-            abrirTelaEstoque()
-            janela1.close()
+            if values['filtrarCategorias'] == '' or values['filtrarCategorias'] == 'selecionar':
+                abrirTelaEstoque()
+            else:
+                abrirTelaEstoque(values['filtrarCategorias'])
+
+
 
     janela1.close()
 

@@ -1,7 +1,7 @@
 from PySimpleGUI import PySimpleGUI as sg
 from layout import consulta
 from Banco_de_dados.consultar_tabela import consultar_por_lote, buscar_ordem_producao, \
-    consultar_por_materia_prima, buscar_produto_acabado, VerificarQuantEstoque
+    consultar_por_materia_prima, buscar_produto_acabado, VerificarQuantEstoque, consultarLotePorOrdemDeProducao as lpop
 from layout import tela_consulta
 from Validar_lote import validar_ordem_producao, validar_lote, verificar_produto_lote
 
@@ -11,6 +11,35 @@ from Validar_lote import validar_ordem_producao, validar_lote, verificar_produto
 def Consulta():
     # criando a janela de consutlas - com base no import do layout
     janela = consulta()
+
+    def textoConsultaOrdemProducao(info):
+
+        lista_organizada_produto = []
+        lista_organizada_lote = []
+        lista_organizada_quantidade = []
+
+        texto_total = ''
+
+        for organizar in range(6):
+
+            if info[0][4 + organizar] != '':
+                lista_organizada_produto.append(info[0][4 + organizar])
+                quantLote = lpop(info[0][2])
+                lista_organizada_lote.append(quantLote[organizar][5])
+                lista_organizada_quantidade.append(quantLote[organizar][3])
+
+
+                texto_usuario= f'\nProduto {organizar+1} usado:   {info[0][4 + organizar]}' \
+                                f'\nLote usado: {quantLote[organizar][5]}' \
+                                f'\nQuantidade: {quantLote[organizar][3]} \n'
+
+                texto_total += texto_usuario
+
+
+
+
+        return texto_total
+
 
 
     # Criar loop para leitura de eventos
@@ -41,16 +70,8 @@ def Consulta():
                     texto_usuario = f'\nProduto Acabado: {info[0][1]}' \
                                     f'\nNumero da Ordem: {info[0][2]}' \
                                     f'\nQuantidade Fab:  {info[0][3]}\n' \
-                                    f'\nLote 1 usado:   {info[0][4]} \n' \
-                                    f'Produto: {verificar_produto_lote(info[0][4])}\n' \
-                                    f'\nLote 2 usado:   {info[0][5]}\n' \
-                                    f'Produto: {verificar_produto_lote(info[0][5])}\n' \
-                                    f'\nLote 3 usado:   {info[0][6]}\n' \
-                                    f'Produto: {verificar_produto_lote(info[0][6])}\n' \
-                                    f'\nLote 4 usado:   {info[0][7]}\n' \
-                                    f'Produto: {verificar_produto_lote(info[0][7])}\n' \
-                                    f'\nData da Ordem:  {info[0][8]}'
-
+                                    f'{textoConsultaOrdemProducao(info)}'\
+                                    f'\n Data da ordem: {info[0][10]}'
 
                     janela2['texto_da_consulta'].update(texto_usuario)
 
@@ -68,7 +89,7 @@ def Consulta():
                     janela2.close()
 
                 else:
-                    sg.popup('Lote nao encontrado')
+                    sg.popup('Ordem nao encontrado')
 
             elif values['Por Materia Prima'] != '' and values['Por Materia Prima'] != 'selecionar':
                 try:

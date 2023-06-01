@@ -1,5 +1,5 @@
 from PySimpleGUI import PySimpleGUI as sg
-from Listas import valores, forncedores, produtos_acabados
+from Listas import valores, forncedores, produtos_acabados, categorias
 
 # Criar as janelas
 
@@ -111,13 +111,15 @@ def tela_consulta():
         [sg.Button('OK', font=fonte_button), sg.Button('Voltar', font=fonte_button)]
     ]
 
-    return sg.Window('Consulta', layout=layout, finalize=True, size=(600, 500))
+    return sg.Window('Consulta', layout=layout, finalize=True, size=(600, 700))
 
 
 def estoque():
     sg.theme('Reddit')
     layout = [
         [sg.Button('Consultar Estoque', font=fonte_button, size=(10, 2))],
+        [sg.Text('Filtrar', font=fonte), sg.OptionMenu(values=categorias, size=(8, 12),
+                                                       default_value='selecionar', key='filtrarCategorias')],
         [sg.Button('Voltar', font=fonte_button)]
 
     ]

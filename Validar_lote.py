@@ -25,6 +25,29 @@ def validar_lote(lote=None):
     conn.close()
 
 
+def validarOrdem(numeroOrdem=None):
+    # cria a conexão com o banco de dados
+    conn = sqlite3.connect('Banco_de_dados/estoque.db')
+
+    # cria o cursor
+    cursor = conn.cursor()
+
+    # lista de nomes
+    nomes = [numeroOrdem]
+
+    # cria a query SQL usando a cláusula IN e um loop for
+    query = "SELECT * FROM criar_ordem_producao WHERE numero_Ordem IN ({})".format(', '.join(['?'] * len(nomes)))
+
+    # executa a query e obtém os resultados
+    resultados = cursor.execute(query, nomes).fetchall()
+
+    # exibe os resultados
+    for resultado in resultados:
+        return resultado
+
+    # fecha a conexão com o banco de dados
+    conn.close()
+
 def validar_ordem_producao(lote=None):
     # cria a conexão com o banco de dados
     conn = sqlite3.connect('Banco_de_dados/estoque.db')
@@ -76,7 +99,6 @@ def verificar_produto_lote(lote=None):
 
 def verificarCategoriaMatPrima(MateriaPrima):
     categoria = str(MateriaPrima).split(' ')[0]
-    print(categoria)
 
     if categoria == 'Válvula':
         categoria = 'Tampa'

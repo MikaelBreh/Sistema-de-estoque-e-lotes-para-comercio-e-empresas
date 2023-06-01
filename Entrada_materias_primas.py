@@ -3,13 +3,14 @@ from layout import entrada_mat_primas
 from Menu_principal import Menu_Principal
 from Verificar_data import validar_data
 from Banco_de_dados.Insert import insertEntradaMateriaPrima
-from Validar_lote import verificarCategoriaMatPrima
+from Validar_lote import verificarCategoriaMatPrima, validar_lote
 
 fonte = ('Helvetica', 16)
 
 
 # funcao para abrir janela para dar entrada de materias primas
 def Entrada_Materias_primas():
+
     # criamos a janela de entrada de materia primas - com base no import do layout
     janela = entrada_mat_primas()
 
@@ -40,13 +41,18 @@ def Entrada_Materias_primas():
                     int(values['Quantidade']) > 0 and values['Lote'] != '' and \
                     validar_data(values['Data']) != False:
 
-                sg.popup(f"Voce deseja adicionar: \n"
-                         f"\n {values['Produto']}"
-                         f"\n Quantidade: {values['Quantidade']} unidades"
-                         f"\n Fornecedor: {values['Fornecedor']}"
-                         f"\n Data: {values['Data']}"
-                         f"\n Lote: {values['Lote']}", font=fonte)
-                janela['OK'].update(disabled=False)
+                if validar_lote(values['Lote']) is None:
+
+                    sg.popup(f"Voce deseja adicionar: \n"
+                             f"\n {values['Produto']}"
+                             f"\n Quantidade: {values['Quantidade']} unidades"
+                             f"\n Fornecedor: {values['Fornecedor']}"
+                             f"\n Data: {values['Data']}"
+                             f"\n Lote: {values['Lote']}", font=fonte)
+                    janela['OK'].update(disabled=False)
+
+                else:
+                    sg.popup('Lote já existente')
 
             else:
                 sg.popup('Verifique as informacoes adicionadas')

@@ -3,6 +3,7 @@ from prettytable import PrettyTable
 import tkinter as tk
 import tkinter.ttk as ttk
 from Listas import valores
+from Validar_lote import verificarCategoriaMatPrima
 
 
 def converterTuplaInt(tupla):
@@ -12,59 +13,161 @@ def converterTuplaInt(tupla):
 # Criar uma funcao que vai receber um lote e retornar informacoes de saida dele
 def consultar_por_lote(lote):
 
-    # Procurar um lote na tabela de entrada (entrada_materias_primas)
-    # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
-    # Definir o cursor para mexer na tabela entrada_materias_primas
-    cursor_entrada_mat_prima = banco.cursor()
+    def abrirBancoDeDados():
+        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        return bancoDeDados
 
-    numeroLote = f"'{lote}'"
-    # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
-    cursor_entrada_mat_prima.execute(f"SELECT * FROM entrada_materias_primas WHERE lote={numeroLote}")
-    # retornamos todos os valores encontrados para dentro de rows
-    t_janela = cursor_entrada_mat_prima.fetchall()
-    # Fechar conexao
-    banco.close()
+    def consultarBancoDeDados(bancoDeDados, colunaDeRetorno, nometabela1, colunaDeConsulta, parametroConsulta):
+        cursor = bancoDeDados.cursor()
+        cursor.execute(f"SELECT {colunaDeRetorno} FROM {nometabela1} WHERE {colunaDeConsulta}='{parametroConsulta}'")
+        return cursor.fetchall()
 
-    # Formatar titulo da janela
-    titulo_janela = {f'Materia Prima: {t_janela[0][2]}  |   Quantidade:  {t_janela[0][3]}   |'
-                     f'  Lote:  {t_janela[0][4]}  |  Fornecedor:  {t_janela[0][1]}  |  Data:  {t_janela[0][5]}'
-                     f'  |   Estoque Atual:  {VerificarQuantEstoque(lote)}'}
+    def consultarSaidaBancoDeDados(bancoDeDados, parametroConsulta):
+        cursor = bancoDeDados.cursor()
+        cursor.execute(f"SELECT * FROM saida_materias_primas WHERE lote='{parametroConsulta}'")
+        return cursor.fetchall()
+
+    def fecharBancoDeDados(bancoDeDados):
+        bancoDeDados.close()
+
+    def verificarComprimentoLista(lista):
+        return len(lista)
+
+    def converterTuplaEmString(tupla):
+        string = tupla[0][0]
+        return string
+
+    def criarMatriz(dadosEmLista, entrada=True):
+
+        matrizPrincipal = []
+        if entrada == True:
+
+            quantidadesItens = verificarComprimentoLista(dadosEmLista[0])
+            quantidadeLinhas = verificarComprimentoLista(dadosEmLista)
+
+            for linhas in range(quantidadeLinhas):
+                matrizSecundaria = []
+
+                for itens in range(quantidadesItens):
+                    matrizSecundaria.append(dadosEmLista[linhas][itens])
+
+                matrizSecundaria.append(VerificarQuantEstoque(dadosEmLista[linhas][6]))
+                matrizPrincipal.append(matrizSecundaria)
 
 
-    # Conectar com o bando de dados
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
-    # Criar o cursor que vai executar
-    cursor = banco.cursor()
-    # Executar consulta SQL
-    cursor.execute(
-        f"SELECT * FROM criar_ordem_producao WHERE lote_1={numeroLote} or lote_2={numeroLote} or lote_3={numeroLote} or lote_4={numeroLote}")
-    # Obter resultados
-    results = cursor.fetchall()
-    # Criar tabela
-    table = PrettyTable()
-    table.field_names = [i[0] for i in cursor.description]  # Obter nomes das colunas
+        else:
+
+            matrizPrincipal = []
+            for tamanho_lista in range(verificarComprimentoLista(dadosEmLista)):
+
+                matrizSecundaria = []
+                for encontrarNasListas in range(verificarComprimentoLista(dadosEmLista[tamanho_lista])):
+                    matrizSecundaria.append(dadosEmLista[tamanho_lista][encontrarNasListas])
+
+                matrizSecundaria.append(
+                     converterTuplaEmString(consultarBancoDeDados(bancoDeDados, 'produto', 'criar_ordem_producao', 'numero_Ordem',
+                                          dadosEmLista[tamanho_lista][4])))
+                matrizPrincipal.append(matrizSecundaria)
+
+        return matrizPrincipal
+
+    def janelaTkinter(matrizEntrada, matrizSaida):
+
+        janela = tk.Tk()
+        janela.title("Entrada e Saida Materia prima - por numero de Lote")
+
+        # --------- Inicio tabela 1 ----------
+        # Criar um widget Treeview
+        tabela1 = ttk.Treeview(janela)
+
+        altura_linha = 2  # Defina a altura desejada das linhas
+        tabela1.configure(height=altura_linha)
+
+        # Definir as colunas
+        tabela1['columns'] = ('Coluna 0', 'Coluna 1', 'Coluna 2', 'Coluna 3', 'Coluna 4', 'Coluna 5', 'Coluna 6', 'Coluna 7')
+
+        # Formatar as colunas
+        tabela1.column('#0', width=0, stretch=False)
+        tabela1.column('Coluna 0', width=50)
+        tabela1.column('Coluna 1', width=250, anchor='center')
+        tabela1.column('Coluna 2', width=300, anchor='center')
+        tabela1.column('Coluna 3', width=120, anchor='center')
+        tabela1.column('Coluna 4', width=120, anchor='center')
+        tabela1.column('Coluna 5', width=120, anchor='center')
+        tabela1.column('Coluna 6', width=170, anchor='center')
+        tabela1.column('Coluna 7', width=170, anchor='center')
+
+        # Definir os cabeçalhos das colunas
+        tabela1.heading('#0', text='ID')
+        tabela1.heading('Coluna 0', text='Id')
+        tabela1.heading('Coluna 1', text='Fornecedor')
+        tabela1.heading('Coluna 2', text='Materia Prima')
+        tabela1.heading('Coluna 3', text='Categoria')
+        tabela1.heading('Coluna 4', text='Quantidade')
+        tabela1.heading('Coluna 5', text='Data')
+        tabela1.heading('Coluna 6', text='Lote')
+        tabela1.heading('Coluna 7', text='Estoque Atual')
+
+        for i, item in enumerate(matrizEntrada):
+            tabela1.insert(parent='', index='end', iid=i, text=str(i), values=item)
+            tabela1.tag_configure('risco', background='#ffc375')  # Configurar a cor do risco
+            tabela1.insert('', 'end', values=['', '', '', ''], tags=('risco',))
+        tabela1.pack()
+        # --------- Fim tabela 1 ----------
 
 
-    # Adicionar linhas da consulta do lote à tabela
-    for row in results:
-        table.add_row(row)
+        # --------- Inicio tabela 2 ----------
+        # Criar um widget Treeview
+        tabela2 = ttk.Treeview(janela)
 
-    # aqui criamos os nomes das colunas que serao exibidos
-    table.field_names = ["ID", "Saida  -  Produto Acabado", "Numero Ordem", "Quantidade",
-                         "Lote 1", "Lote 2", "Lote 3", "Lote 4", "Data", ]
+        altura_linha = 30  # Defina a altura desejada das linhas
+        tabela2.configure(height=altura_linha)
+
+        # Definir as colunas
+        tabela2['columns'] = ('Coluna 0', 'Coluna 1', 'Coluna 2', 'Coluna 3', 'Coluna 4', 'Coluna 5',
+                              'Coluna 6', 'Coluna 7')
+
+        # Formatar as colunas
+        tabela2.column('#0', width=0, stretch=False)
+        tabela2.column('Coluna 0', width=35)
+        tabela2.column('Coluna 1', width=300)
+        tabela2.column('Coluna 2', width=120, anchor='center')
+        tabela2.column('Coluna 3', width=100, anchor='center')
+        tabela2.column('Coluna 4', width=120, anchor='center')
+        tabela2.column('Coluna 5', width=120, anchor='center')
+        tabela2.column('Coluna 6', width=120, anchor='center')
+        tabela2.column('Coluna 7', width=382, anchor='center')
 
 
-    janela = tk.Tk()
-    janela.title(titulo_janela)
 
-    texto = tk.Text(janela, width=150, height=100)
-    texto.pack()
 
-    texto.insert(tk.END, table.get_string())
+        # Definir os cabeçalhos das colunas
+        tabela2.heading('#0', text='ID')
+        tabela2.heading('Coluna 0', text='Id')
+        tabela2.heading('Coluna 1', text='Materia Prima') # o unico que vem de criar ordem de producao
+        tabela2.heading('Coluna 2', text='Categoria')
+        tabela2.heading('Coluna 3', text='Quantidade')
+        tabela2.heading('Coluna 4', text='Numero da Ordem')
+        tabela2.heading('Coluna 5', text='lote')
+        tabela2.heading('Coluna 6', text='Data')
+        tabela2.heading('Coluna 7', text='Produto feito')
 
-    # Imprimir tabela
-    return table
+
+        for i, item in enumerate(matrizSaida):
+            tabela2.insert(parent='', index='end', iid=i, text=str(i), values=item)
+        tabela2.pack()
+        # --------- Fim tabela 2 ----------
+
+        janela.mainloop()
+
+    bancoDeDados = abrirBancoDeDados()
+    correspondenciaEntrada = consultarBancoDeDados(bancoDeDados, '*', 'entrada_materias_primas', 'lote', lote)
+    correspondenciaSaida = consultarSaidaBancoDeDados(bancoDeDados, lote)
+    matrizEntrada = criarMatriz(correspondenciaEntrada)
+    matrizSaida = criarMatriz(correspondenciaSaida, False)
+    fecharBancoDeDados(bancoDeDados)
+
+    janelaTkinter(matrizEntrada, matrizSaida)
 
 
 
@@ -240,7 +343,7 @@ def buscar_ordem_producao(lote):
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
-    cursor_entrada_mat_prima.execute(f"SELECT * FROM criar_ordem_producao WHERE numero_Ordem={lote}")
+    cursor_entrada_mat_prima.execute(f"SELECT * FROM criar_ordem_producao WHERE numero_Ordem='{lote}'")
     # retornamos todos os valores encontrados para dentro de rows
     info = cursor_entrada_mat_prima.fetchall()
     # Fechar conexao
@@ -248,6 +351,26 @@ def buscar_ordem_producao(lote):
 
     return info
 
+
+def consultarLotePorOrdemDeProducao(ordem):
+
+    def abrirBancoDeDados():
+        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        return bancoDeDados
+
+    def consultarBancoDeDados(bancoDeDados, colunaDeRetorno, nometabela1, colunaDeConsulta, parametroConsulta):
+        cursor = bancoDeDados.cursor()
+        cursor.execute(f"SELECT {colunaDeRetorno} FROM {nometabela1} WHERE {colunaDeConsulta}='{parametroConsulta}'")
+        return cursor.fetchall()
+
+    def fecharBancoDeDados(bancoDeDados):
+        bancoDeDados.close()
+
+
+    bancoDeDados = abrirBancoDeDados()
+    correspondencia = consultarBancoDeDados(bancoDeDados, '*', 'saida_materias_primas', 'numeroOrdem', ordem)
+    fecharBancoDeDados(bancoDeDados)
+    return correspondencia
 
 
 def buscar_produto_acabado(produto):
@@ -314,7 +437,7 @@ def VerificarQuantEstoque(lote):
     cursor = banco.cursor()
     # Executar consulta SQL
     cursor.execute(
-        f"SELECT quantidade FROM criar_ordem_producao WHERE lote_1='{lote}' or lote_2='{lote}' or lote_3='{lote}' or lote_4='{lote}'")
+        f"SELECT quantidade FROM saida_materias_primas WHERE lote='{lote}' ")
     # Obter resultados
     results = cursor.fetchall()
     # Criar tabela
@@ -357,7 +480,7 @@ def consultar_saida_matPrima(lote):
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
     cursor_entrada_mat_prima.execute(
-        f"SELECT quantidade FROM criar_ordem_producao WHERE lote_1='{lote}' or lote_2='{lote}' or lote_3='{lote}' or lote_4='{lote}'")
+        f"SELECT quantidade FROM saida_materias_primas WHERE lote={lote}")
     # Obter resultados
     t_janela = cursor_entrada_mat_prima.fetchall()
     # Fechar conexao
@@ -409,7 +532,7 @@ def transLoteEmNome(lote):
             return ''
 
 
-def abrirTelaEstoque():
+def abrirTelaEstoque(categoria='Todos'):
     janela = tk.Tk()
     janela.title("Tabela")
 
@@ -440,10 +563,20 @@ def abrirTelaEstoque():
 
     matriz = []
 
-    for nome_produto in range(len(valores)):
+    if categoria == 'Todos':
+        lista_filtrada = valores
+    else:
+        lista_filtrada = []
+        for filtrarCategoria in range(len(valores)):
+            if verificarCategoriaMatPrima(valores[filtrarCategoria]) == categoria:
+                lista_filtrada.append(valores[filtrarCategoria])
+            else:
+                continue
+
+    for nome_produto in range(len(lista_filtrada)):
         listas = []
-        listas.append(valores[nome_produto])
-        listas.append(consultar_entrada_matPrima(valores[nome_produto]))
+        listas.append(lista_filtrada[nome_produto])
+        listas.append(consultar_entrada_matPrima(lista_filtrada[nome_produto]))
         # listas.append(consultar_saida_matPrima(valores[nome_produto]))
         matriz.append(listas)
 
@@ -452,7 +585,7 @@ def abrirTelaEstoque():
         listas2 = []
         soma = 0
         soma2 = 0
-        lotes_do_produto = TranfNomeEmLote(valores[linhas])
+        lotes_do_produto = TranfNomeEmLote(lista_filtrada[linhas])
 
         for itens_linhas in range(len(matriz[linhas][1])):
             soma += converterTuplaInt(matriz[linhas][1][itens_linhas])

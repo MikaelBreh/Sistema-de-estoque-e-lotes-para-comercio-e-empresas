@@ -3,7 +3,7 @@ from layout import criar_ordem_producao
 from Menu_principal import Menu_Principal
 from Verificar_data import validar_data
 from Banco_de_dados.Insert import insertSaidaMateriaPrima
-from Validar_lote import validar_lote, verificar_produto_lote, verificarCategoriaMatPrima
+from Validar_lote import validar_lote, verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem
 from Banco_de_dados.consultar_tabela import transLoteEmNome
 
 fonte = ('Helvetica', 16)
@@ -107,6 +107,7 @@ def Criar_ordem_producao():
             # Validar informacoes para lançar a ordem de producao ou nao
             if values['Produto'] != '' and values['Produto'] != 'selecionar' \
                     and values['Numero Ordem'] != '' and \
+                    validarOrdem(values['Numero Ordem']) == None and \
                     int(values['Quantidade']) > 0 and \
                     validarEntradaLote(values['Lote_1'], values['quant1'], True) and \
                     validarEntradaLote(values['Lote_2'], values['quant2'], True) and \
@@ -139,13 +140,14 @@ def Criar_ordem_producao():
             janela.close()
 
             # Lançar ordem de producao no banco de dados
-            insertSaidaMateriaPrima(values['Produto'], values['Numero Ordem'],
+            insertSaidaMateriaPrima(contarLotesPreenchidos(), values['Produto'], values['Numero Ordem'],
                                     verificarCategoriaMatPrima(values['Produto']),
                                     int(values['Quantidade']),
                                     values['Lote_1'], values['Lote_2'],
                                     values['Lote_3'], values['Lote_4'],
                                     values['Lote_5'], values['Lote_6'],
                                     values['Data'])
+
 
     # fechando menu de entrada de materias primas
     janela.close()
