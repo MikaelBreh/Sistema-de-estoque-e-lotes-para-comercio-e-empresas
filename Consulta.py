@@ -55,10 +55,14 @@ def Consulta():
 
         if event == 'OK':
 
-            if values['Por lote do fornecedor'] != '' and validar_lote(values['Por lote do fornecedor']) != None:
-                consultar_por_lote(values['Por lote do fornecedor'])
+            if values['Por lote do fornecedor'] != '':
+                if validar_lote(values['Por lote do fornecedor']) != None:
+                    consultar_por_lote(values['Por lote do fornecedor'])
 
-            if values['Por ordem de producao'] != '':
+                else:
+                    sg.popup('Lote nao encontrado')
+
+            elif values['Por ordem de producao'] != '':
 
                 if validar_ordem_producao(values['Por ordem de producao']) != None:
 
@@ -94,12 +98,14 @@ def Consulta():
             elif values['Por Materia Prima'] != '' and values['Por Materia Prima'] != 'selecionar':
                 try:
                     consultar_por_materia_prima(values['Por Materia Prima'])
-                except ValueError:
+                except IndexError:
                     sg.popup('Materia prima sem lançamento')
 
             elif values['Por Produto Acabado'] != '' and values['Por Produto Acabado'] != 'selecionar':
-                buscar_produto_acabado(values['Por Produto Acabado'])
-
+                try:
+                    buscar_produto_acabado(values['Por Produto Acabado'])
+                except IndexError:
+                    sg.popup('Produto Acabado nao encontrado')
 
     # fechando menu de consultas
     janela.close()
