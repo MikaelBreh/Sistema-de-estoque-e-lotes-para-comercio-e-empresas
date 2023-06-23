@@ -8,6 +8,8 @@ from Criacao_ordem_producao import Criar_ordem_producao
 from Consulta import Consulta
 from Banco_de_dados.consultar_tabela import abrirTelaEstoque
 from Estoque import Estoque
+from Excluir_MP import excluir_MP
+from Excluir_OP import excluir_OP
 
 # Criar a janela inicial de login
 situacao_login = login()
@@ -18,7 +20,7 @@ if situacao_login != False:
 
     while opcao_menu != False:
 
-        # Abrir pagina do menu conforme escolha do usuario
+        # Abrir página do menu conforme escolha do usuario
         if opcao_menu == 'Lançar entrada M.P':
             print('lancar entrada')
             valor = Entrada_Materias_primas()
@@ -34,6 +36,14 @@ if situacao_login != False:
         if opcao_menu == 'Consultas':
             print('Abrir Consultas')
             valor = Consulta()
+
+        if opcao_menu == 'Excluir M.P Lançada':
+            print('Abrir Excluir M.P Lançada')
+            valor = excluir_MP()
+
+        if opcao_menu == 'Excluir Ordem Lançada':
+            print('Abrir Excluir Ordem Lançada')
+            valor = excluir_OP()
 
         opcao_menu = Menu_Principal()
 

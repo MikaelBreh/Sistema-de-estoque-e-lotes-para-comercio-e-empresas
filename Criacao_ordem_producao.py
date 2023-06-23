@@ -3,61 +3,17 @@ from layout import criar_ordem_producao
 from Menu_principal import Menu_Principal
 from Verificar_data import validar_data
 from Banco_de_dados.Insert import insertSaidaMateriaPrima
-from Validar_lote import validar_lote, verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem
+from Validar_lote import validar_lote, verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem, validarEntradaLote
 from Banco_de_dados.consultar_tabela import transLoteEmNome
 
 fonte = ('Helvetica', 16)
 
 
+
+
 # funcao para abrir janela para dar entrada de materias primas
 def Criar_ordem_producao():
     # Validar todas as informacoes referente a lote e quantidade dentro da criacao de ordem de producao
-    def validarEntradaLote(value_lote, value_quantidade, preenchimento_obrigatorio=True):
-
-        if preenchimento_obrigatorio == True:
-            if value_lote != '':
-                if validar_lote(value_lote) is not None:
-                    if value_quantidade != '':
-                        try:
-                         if int(value_quantidade) > 0:
-                             return True
-                        # Se ao tentar comparar a quantidade com um int gerar um erro, nao executará
-                        except ValueError:
-                            return False
-                    else:
-                        # Se o valor do lote nao for maior que 0 ele nao vai aceitar
-                        return False
-                        print('obrigatorio -  quantidade é inferior a zero ou nula - False')
-                else:
-                    # Se a funcao validar lote nao encontrar um lote, não será aceito
-                    return False
-                    print('obrigatorio - lote nao encontrado - False')
-            else:
-                # Se o 'input' lote igualar nada, não será aceito
-                return False
-                print('obrigatorio - lote nulo - False')
-
-        if preenchimento_obrigatorio == False:
-            # Se valor e quantidade nao forem preenchidos, executa
-            if value_lote == '' and value_quantidade == '':
-                return True
-
-            # Se preenchimento nao for obrigatorio e valor ou quantidade estiverem preenchidos, validar:
-            else:
-                # Se o lote for encontrado, validar:
-                if validar_lote(value_lote) is not None:
-                    if value_quantidade != '':
-                        try:
-                            # Se quantidade estiver correta, executa:
-                            if int(value_quantidade) > 0:
-                                return True
-                        # Se ao tentar comparar quantidade com int resultar em erro, não será aceito
-                        except ValueError:
-                            return False
-                else:
-                    # Se for preenchido, mas com lote invalido, não será aceito
-                    return False
-                    print('nao obrigatorio, prebchdio, lote nao encontrado')
 
 
     def contarLotesPreenchidos():

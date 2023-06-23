@@ -25,8 +25,10 @@ def janela_login():
 def menu_principal():
     sg.theme('Reddit')
     layout = [
-        [sg.Button('Lançar entrada M.P', font=fonte_button, size=(10, 2))],
-        [sg.Button('Criar Ordem de Producao', font=fonte_button, size=(10, 2))],
+        [sg.Button('Lançar entrada M.P', font=fonte_button, size=(10, 2)),
+         sg.Button('Excluir M.P Lançada', font=fonte_button, size=(10, 2), button_color='#FF6666')],
+        [sg.Button('Criar Ordem de Producao', font=fonte_button, size=(10, 2)),
+         sg.Button('Excluir Ordem Lançada', font=fonte_button, size=(10, 2), button_color='#FF6666')],
         [sg.Button('Estoque', font=fonte_button, size=(10, 2)),
          sg.Button('Consultas', font=fonte_button, size=(10, 2))],
         [sg.Button('Cancelar', font=fonte_button, size=(10, 2))]
@@ -51,6 +53,18 @@ def entrada_mat_primas():
         [sg.Button('Conferencia', font=fonte), sg.Button('OK', font=fonte), sg.Button('Voltar', font=fonte)]
     ]
     return sg.Window('Entrada de Materias Primas', layout=layout, finalize=True)
+
+
+def Excluir():
+    sg.theme('Reddit')  # É possivel colocar outros temas (doc. oficial)
+    layout = [
+        [sg.Text('Você deseja realmente excluir?', font=fonte)],
+        [sg.Text('Digite o Lote/numero Ordem:  ', font=fonte), sg.Input(key='Lote', font=fonte_box)],
+        [sg.Button('Conferencia', font=fonte), sg.Button('Excluir', font=fonte), sg.Button('Voltar', font=fonte)]
+    ]
+
+    return sg.Window('Excluir Materia Prima/Ordem de producao com Lançamento', layout=layout, finalize=True)
+
 
 
 # Layout criacao de ordem de producao

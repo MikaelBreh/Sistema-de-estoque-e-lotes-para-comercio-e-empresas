@@ -34,6 +34,16 @@ def Menu_Principal():
             janela.close()
             return 'Estoque'
 
+        # Se usuario tiver clicado em Estoque:
+        if event == 'Excluir M.P Lançada':
+            janela.close()
+            return 'Excluir M.P Lançada'
+
+        # Se usuario tiver clicado em Estoque:
+        if event == 'Excluir Ordem Lançada':
+            janela.close()
+            return 'Excluir Ordem Lançada'
+
     # fechando menu principal
     janela.close()
 
