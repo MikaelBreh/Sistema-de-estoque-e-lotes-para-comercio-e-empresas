@@ -1,5 +1,5 @@
 from PySimpleGUI import PySimpleGUI as sg
-from Listas import valores, forncedores, produtos_acabados, categorias
+from General.Listas import valores, forncedores, produtos_acabados, categorias
 
 # Criar as janelas
 

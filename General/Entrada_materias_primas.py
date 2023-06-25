@@ -1,9 +1,8 @@
 from PySimpleGUI import PySimpleGUI as sg
-from layout import entrada_mat_primas
-from Menu_principal import Menu_Principal
-from Verificar_data import validar_data
+from General.layout import entrada_mat_primas
+from General.Verificar_data import validar_data
 from Banco_de_dados.Insert import insertEntradaMateriaPrima
-from Validar_lote import verificarCategoriaMatPrima, validar_lote
+from Banco_de_dados.Validar_lote import verificarCategoriaMatPrima, validar_lote
 
 fonte = ('Helvetica', 16)
 

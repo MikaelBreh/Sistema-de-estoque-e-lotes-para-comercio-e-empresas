@@ -1,4 +1,5 @@
 import sqlite3
+from Banco_de_dados.link_tabela import link
 # Deve receber um valor de um lote e verificar se ele existe
 
 def validarEntradaLote(value_lote, value_quantidade, preenchimento_obrigatorio=True):
@@ -49,7 +50,7 @@ def validarEntradaLote(value_lote, value_quantidade, preenchimento_obrigatorio=T
 
 def validar_lote(lote=None):
     # cria a conexão com o banco de dados
-    conn = sqlite3.connect('Banco_de_dados/estoque.db')
+    conn = sqlite3.connect(link)
 
     # cria o cursor
     cursor = conn.cursor()
@@ -73,7 +74,7 @@ def validar_lote(lote=None):
 
 def validarOrdem(numeroOrdem=None):
     # cria a conexão com o banco de dados
-    conn = sqlite3.connect('Banco_de_dados/estoque.db')
+    conn = sqlite3.connect(link)
 
     # cria o cursor
     cursor = conn.cursor()
@@ -96,7 +97,7 @@ def validarOrdem(numeroOrdem=None):
 
 def validar_ordem_producao(lote=None):
     # cria a conexão com o banco de dados
-    conn = sqlite3.connect('Banco_de_dados/estoque.db')
+    conn = sqlite3.connect(link)
 
     # cria o cursor
     cursor = conn.cursor()
@@ -120,7 +121,7 @@ def validar_ordem_producao(lote=None):
 
 def verificar_produto_lote(lote=None):
     # cria a conexão com o banco de dados
-    conn = sqlite3.connect('Banco_de_dados/estoque.db')
+    conn = sqlite3.connect(link)
 
     # cria o cursor
     cursor = conn.cursor()

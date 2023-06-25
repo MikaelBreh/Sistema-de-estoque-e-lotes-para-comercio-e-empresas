@@ -1,10 +1,9 @@
 from PySimpleGUI import PySimpleGUI as sg
-from layout import consulta
+from General.layout import consulta
 from Banco_de_dados.consultar_tabela import consultar_por_lote, buscar_ordem_producao, \
-    consultar_por_materia_prima, buscar_produto_acabado, VerificarQuantEstoque, consultarLotePorOrdemDeProducao as lpop
-from layout import tela_consulta
-from Validar_lote import validar_ordem_producao, validar_lote, verificar_produto_lote
-
+    consultar_por_materia_prima, buscar_produto_acabado, consultarLotePorOrdemDeProducao as lpop
+from General.layout import tela_consulta
+from Banco_de_dados.Validar_lote import validar_ordem_producao, validar_lote
 
 
 # funcao para abrir menu de consultas

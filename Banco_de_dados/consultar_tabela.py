@@ -2,9 +2,9 @@ import sqlite3
 from prettytable import PrettyTable
 import tkinter as tk
 import tkinter.ttk as ttk
-from Listas import valores
-from Validar_lote import verificarCategoriaMatPrima
-
+from General.Listas import valores
+from Banco_de_dados.Validar_lote import verificarCategoriaMatPrima
+from Banco_de_dados.link_tabela import link
 
 def converterTuplaInt(tupla):
     tuplaConvertida = int(''.join(map(str, tupla)))
@@ -14,7 +14,7 @@ def converterTuplaInt(tupla):
 def consultar_por_lote(lote):
 
     def abrirBancoDeDados():
-        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        bancoDeDados = sqlite3.connect(link)
         return bancoDeDados
 
     def consultarBancoDeDados(bancoDeDados, colunaDeRetorno, nometabela1, colunaDeConsulta, parametroConsulta):
@@ -174,7 +174,7 @@ def consultar_por_lote(lote):
 # essa parte do codigo vai mostrar as informacoes de entrada e saida de um lote
 def consultar_por_materia_prima(nomeMateriaPrima):
     def abrirBancoDeDados():
-        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        bancoDeDados = sqlite3.connect(link)
         return bancoDeDados
 
     def consultarProdutoAcabadoOrdem(bancoDeDados, parametroConsulta):
@@ -336,7 +336,7 @@ def consultar_por_materia_prima(nomeMateriaPrima):
 def buscar_ordem_producao(lote):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -352,7 +352,7 @@ def buscar_ordem_producao(lote):
 def consultarLotePorOrdemDeProducao(ordem):
 
     def abrirBancoDeDados():
-        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        bancoDeDados = sqlite3.connect(link)
         return bancoDeDados
 
     def consultarBancoDeDados(bancoDeDados, colunaDeRetorno, nometabela1, colunaDeConsulta, parametroConsulta):
@@ -373,7 +373,7 @@ def consultarLotePorOrdemDeProducao(ordem):
 def buscar_produto_acabado(nomeMateriaPrima):
 
     def abrirBancoDeDados():
-        bancoDeDados = sqlite3.connect('Banco_de_dados/estoque.db')
+        bancoDeDados = sqlite3.connect(link)
         return bancoDeDados
 
     def consultarProdutoAcabadoOrdem(bancoDeDados):
@@ -552,7 +552,7 @@ def buscar_produto_acabado(nomeMateriaPrima):
 def VerificarQuantEstoque(lote):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -566,7 +566,7 @@ def VerificarQuantEstoque(lote):
     quantLote = t_janela[0]
 
     # Conectar com o bando de dados
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Criar o cursor que vai executar
     cursor = banco.cursor()
     # Executar consulta SQL
@@ -593,7 +593,7 @@ def VerificarQuantEstoque(lote):
 def consultar_entrada_matPrima(nome_materia):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -609,7 +609,7 @@ def consultar_entrada_matPrima(nome_materia):
 def consultar_saida_matPrima(lote):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -625,7 +625,7 @@ def consultar_saida_matPrima(lote):
 def TranfNomeEmLote(nome_materia):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -642,7 +642,7 @@ def TranfNomeEmLote(nome_materia):
 def transLoteEmNome(lote):
     # Procurar um lote na tabela de entrada (entrada_materias_primas)
     # Abrir conexao com o sqlite estoque
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     # Definir o cursor para mexer na tabela entrada_materias_primas
     cursor_entrada_mat_prima = banco.cursor()
     # selecionamos a tabela e vamos procurar o lote que foi colocado na funcao
@@ -721,7 +721,7 @@ def abrirTelaEstoque(categoria='Todos'):
         return lista_filtrada
 
     def abrirBancoDeDados():
-        banco = sqlite3.connect('Banco_de_dados/estoque.db')
+        banco = sqlite3.connect(link)
         return banco
 
     def fecharBancoDeDados(bancoDeDados):

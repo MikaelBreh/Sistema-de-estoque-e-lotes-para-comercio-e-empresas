@@ -1,6 +1,6 @@
 from Banco_de_dados.consultar_tabela import abrirTelaEstoque
 from PySimpleGUI import PySimpleGUI as sg
-from layout import estoque
+from General.layout import estoque
 
 def Estoque():
     # Criar a janela inicial de login

@@ -1,10 +1,8 @@
 from PySimpleGUI import PySimpleGUI as sg
-from layout import criar_ordem_producao
-from Menu_principal import Menu_Principal
-from Verificar_data import validar_data
+from General.layout import criar_ordem_producao
+from General.Verificar_data import validar_data
 from Banco_de_dados.Insert import insertSaidaMateriaPrima
-from Validar_lote import validar_lote, verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem, validarEntradaLote
-from Banco_de_dados.consultar_tabela import transLoteEmNome
+from Banco_de_dados.Validar_lote import verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem, validarEntradaLote
 
 fonte = ('Helvetica', 16)
 

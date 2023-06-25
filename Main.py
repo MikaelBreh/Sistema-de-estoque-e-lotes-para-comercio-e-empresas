@@ -1,15 +1,11 @@
-from PySimpleGUI import PySimpleGUI as sg
-from Login import login
-from Login import janela_login
-from layout import menu_principal
-from Menu_principal import Menu_Principal
-from Entrada_materias_primas import Entrada_Materias_primas
-from Criacao_ordem_producao import Criar_ordem_producao
-from Consulta import Consulta
-from Banco_de_dados.consultar_tabela import abrirTelaEstoque
-from Estoque import Estoque
-from Excluir_MP import excluir_MP
-from Excluir_OP import excluir_OP
+from General.Login import login
+from General.Menu_principal import Menu_Principal
+from General.Entrada_materias_primas import Entrada_Materias_primas
+from General.Criacao_ordem_producao import Criar_ordem_producao
+from General.Consulta import Consulta
+from General.Estoque import Estoque
+from General.Excluir_MP import excluir_MP
+from General.Excluir_OP import excluir_OP
 
 # Criar a janela inicial de login
 situacao_login = login()

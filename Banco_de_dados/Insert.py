@@ -1,10 +1,10 @@
 import sqlite3
+from Banco_de_dados.Validar_lote import verificarCategoriaMatPrima, verificar_produto_lote
 from Banco_de_dados.consultar_tabela import transLoteEmNome
-from Validar_lote import verificarCategoriaMatPrima, verificar_produto_lote
-from Banco_de_dados.consultar_tabela import transLoteEmNome
+from Banco_de_dados.link_tabela import link
 
 def insertEntradaMateriaPrima(nome_tabela, fornecedor, produto, categoria, quantidade, lote, data):
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     cursor = banco.cursor()
     cursor.execute(
         f"INSERT INTO {nome_tabela} (fornecedor, produto, categoria, quantidade, lote, data) VALUES ( ?, ?, ?, ?, ?, ?)",
@@ -18,7 +18,7 @@ def insertSaidaMateriaPrima(lotes_QuantidadesEmLista, produto, numero_Ordem, cat
     print(produto, numero_Ordem, categoria, quantidade, mat_prima1,
                             mat_prima2, mat_prima3, mat_prima4, mat_prima5, mat_prima6, data)
 
-    banco = sqlite3.connect('Banco_de_dados/estoque.db')
+    banco = sqlite3.connect(link)
     cursor = banco.cursor()
 
     print(produto, numero_Ordem, quantidade, transLoteEmNome(mat_prima1), transLoteEmNome(mat_prima2),

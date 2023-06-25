@@ -1,8 +1,9 @@
 import sqlite3
+from Banco_de_dados.link_tabela import link
 
 def Excluir_linha_SQL(nomeTabela, Condicao, valor, excluirSaida=False):
     # Conectar ao banco de dados
-    conexao = sqlite3.connect('Banco_de_dados/estoque.db')
+    conexao = sqlite3.connect(link)
     cursor = conexao.cursor()
 
     # Executar a consulta SQL para excluir uma linha

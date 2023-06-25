@@ -1,9 +1,9 @@
 from PySimpleGUI import PySimpleGUI as sg
-from layout import Excluir
-from Validar_lote import validar_ordem_producao
-from login_adm import login_ADM
+from General.layout import Excluir
+from Banco_de_dados.Validar_lote import validar_ordem_producao
+from General.login_adm import login_ADM
 from Banco_de_dados.excluiLinha_SQL import Excluir_linha_SQL
-from layout import tela_consulta
+from General.layout import tela_consulta
 from Banco_de_dados.consultar_tabela import buscar_ordem_producao, consultarLotePorOrdemDeProducao as lpop
 
 
