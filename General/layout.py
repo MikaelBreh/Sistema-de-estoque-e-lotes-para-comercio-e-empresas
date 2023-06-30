@@ -131,11 +131,14 @@ def tela_consulta():
 def estoque():
     sg.theme('Reddit')
     layout = [
-        [sg.Button('Consultar Estoque', font=fonte_button, size=(10, 2))],
         [sg.Text('Filtrar', font=fonte), sg.OptionMenu(values=categorias, size=(8, 12),
                                                        default_value='selecionar', key='filtrarCategorias')],
+        [sg.Button('Consultar Estoque', font=fonte_button, size=(10, 2))],
+        [sg.Checkbox("Ver apenas estoque minimo", key="opcao_ver_estoque_minimo", font=fonte_box)],
+        [sg.Text('', size=(1, 3))],
+
         [sg.Button('Voltar', font=fonte_button)]
 
     ]
 
-    return sg.Window('Consulta', layout=layout, finalize=True, size=(600, 500))
+    return sg.Window('Consulta Estoque', layout=layout, finalize=True, size=(600, 500))

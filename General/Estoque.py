@@ -17,9 +17,9 @@ def Estoque():
 
         if event == 'Consultar Estoque':
             if values['filtrarCategorias'] == '' or values['filtrarCategorias'] == 'selecionar':
-                abrirTelaEstoque()
+                abrirTelaEstoque('Todos', values['opcao_ver_estoque_minimo'])
             else:
-                abrirTelaEstoque(values['filtrarCategorias'])
+                abrirTelaEstoque(values['filtrarCategorias'], values['opcao_ver_estoque_minimo'])
 
 
 

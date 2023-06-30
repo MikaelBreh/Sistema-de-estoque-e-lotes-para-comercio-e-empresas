@@ -2,9 +2,12 @@ import sqlite3
 from prettytable import PrettyTable
 import tkinter as tk
 import tkinter.ttk as ttk
-from General.Listas import valores
+from General.Listas import valores, estoque_minimo
 from Banco_de_dados.Validar_lote import verificarCategoriaMatPrima
 from Banco_de_dados.link_tabela import link
+import smtplib
+from email.message import EmailMessage
+from conteudoSensivel.info_email_remetente import *
 
 def converterTuplaInt(tupla):
     tuplaConvertida = int(''.join(map(str, tupla)))
@@ -170,7 +173,6 @@ def consultar_por_lote(lote):
     janelaTkinter(matrizEntrada, matrizSaida)
 
 
-
 # essa parte do codigo vai mostrar as informacoes de entrada e saida de um lote
 def consultar_por_materia_prima(nomeMateriaPrima):
     def abrirBancoDeDados():
@@ -329,8 +331,6 @@ def consultar_por_materia_prima(nomeMateriaPrima):
 
     fecharBancoDeDados(bancoDeDados)
     janelaTkinter(matrizEntrada, matrizSaida)
-
-
 
 
 def buscar_ordem_producao(lote):
@@ -666,7 +666,7 @@ def transLoteEmNome(lote):
             return ''
 
 
-def abrirTelaEstoque(categoria='Todos'):
+def abrirTelaEstoque(categoria='Todos', estoque_Minimo = False):
 
     # Abrir janela do tkinter
     def janelaTkinter(dados):
@@ -679,22 +679,42 @@ def abrirTelaEstoque(categoria='Todos'):
         altura_linha = 40  # Defina a altura desejada das linhas
         tabela.configure(height=altura_linha)
 
-        # Definir as colunas
-        tabela['columns'] = ('Coluna 1', 'Coluna 2', 'Coluna 3', 'Coluna 4')
+        if estoque_Minimo:
+            # Definir as colunas
+            tabela['columns'] = ('Coluna 1', 'Coluna 2', 'Coluna 3', 'Coluna 4', 'Coluna 5')
 
-        # Formatar as colunas
-        tabela.column('#0', width=0, stretch=False)
-        tabela.column('Coluna 1', width=400)
-        tabela.column('Coluna 2', width=120)
-        tabela.column('Coluna 3', width=120)
-        tabela.column('Coluna 4', width=120)
+            # Formatar as colunas
+            tabela.column('#0', width=0, stretch=False)
+            tabela.column('Coluna 1', width=400)
+            tabela.column('Coluna 2', width=120)
+            tabela.column('Coluna 3', width=120)
+            tabela.column('Coluna 4', width=120)
+            tabela.column('Coluna 5', width=120)
 
-        # Definir os cabeçalhos das colunas
-        tabela.heading('#0', text='ID')
-        tabela.heading('Coluna 1', text='Produto')
-        tabela.heading('Coluna 2', text='Entrada')
-        tabela.heading('Coluna 3', text='Saida')
-        tabela.heading('Coluna 4', text='Estoque')
+            # Definir os cabeçalhos das colunas
+            tabela.heading('#0', text='ID')
+            tabela.heading('Coluna 1', text='Produto')
+            tabela.heading('Coluna 2', text='Entrada')
+            tabela.heading('Coluna 3', text='Saida')
+            tabela.heading('Coluna 4', text='Estoque Atual')
+            tabela.heading('Coluna 5', text='Estoque Minimo')
+
+        else:
+            # Definir as colunas
+            tabela['columns'] = ('Coluna 1', 'Coluna 2', 'Coluna 3', 'Coluna 4')
+
+            # Formatar as colunas
+            tabela.column('#0', width=0, stretch=False)
+            tabela.column('Coluna 1', width=400)
+            tabela.column('Coluna 2', width=120)
+            tabela.column('Coluna 3', width=120)
+            tabela.column('Coluna 4', width=120)
+            # Definir os cabeçalhos das colunas
+            tabela.heading('#0', text='ID')
+            tabela.heading('Coluna 1', text='Produto')
+            tabela.heading('Coluna 2', text='Entrada')
+            tabela.heading('Coluna 3', text='Saida')
+            tabela.heading('Coluna 4', text='Estoque Atual')
 
         for i, item in enumerate(dados):
             tabela.insert(parent='', index='end', iid=i, text=str(i), values=item)
@@ -709,8 +729,8 @@ def abrirTelaEstoque(categoria='Todos'):
     def consultarFiltragem(categoria):
         if categoria == 'Todos':
             lista_filtrada = valores
-        else:
 
+        else:
             lista_filtrada = []
             for filtrarCategoria in range(len(valores)):
                 if verificarCategoriaMatPrima(valores[filtrarCategoria]) == categoria:
@@ -795,8 +815,20 @@ def abrirTelaEstoque(categoria='Todos'):
                     somaTotalEntrada += quantidadeEntrada[organizarItenAIten][1][somarEntrada][0]
                 matrizSecundaria.append(somaTotalEntrada)
 
-            matrizSecundaria.append(quantidadeSaida[organizarItenAIten])
-            matrizSecundaria.append(somaTotalEntrada - quantidadeSaida[organizarItenAIten])
+
+            if estoque_Minimo:
+                if somaTotalEntrada - quantidadeSaida[organizarItenAIten] < estoque_minimo[listaFiltrada[organizarItenAIten]]:
+                    matrizSecundaria.append(quantidadeSaida[organizarItenAIten])
+                    matrizSecundaria.append(somaTotalEntrada - quantidadeSaida[organizarItenAIten])
+                    matrizSecundaria.append(estoque_minimo[listaFiltrada[organizarItenAIten]])
+
+                else:
+                    continue
+
+            else:
+                matrizSecundaria.append(quantidadeSaida[organizarItenAIten])
+                matrizSecundaria.append(somaTotalEntrada - quantidadeSaida[organizarItenAIten])
+
             matrizGeral.append(matrizSecundaria)
 
         return matrizGeral
@@ -811,5 +843,151 @@ def abrirTelaEstoque(categoria='Todos'):
     MatrizGeral = criarMatrizGeral(quantidadeEntrada, quantidadeSaida, listaFiltrada)
 
     janelaTkinter(MatrizGeral)
+
+
+def CorpoEmailEstoqueMinimo(categoria='Todos', estoque_Minimo = True):
+
+    # Verifica se usuario filtrou alguma categoria - retorna 'lista Filtrada'
+    def consultarFiltragem(categoria):
+        if categoria == 'Todos':
+            lista_filtrada = valores
+
+        else:
+            lista_filtrada = []
+            for filtrarCategoria in range(len(valores)):
+                if verificarCategoriaMatPrima(valores[filtrarCategoria]) == categoria:
+                    lista_filtrada.append(valores[filtrarCategoria])
+                else:
+                    continue
+
+        return lista_filtrada
+
+    def abrirBancoDeDados():
+        banco = sqlite3.connect(link)
+        return banco
+
+    def fecharBancoDeDados(bancoDeDados):
+        BancoDeDados.close()
+
+    # Consultar a quantidade da entrada do produto procurado
+    def consultar_entrada_matPrima(bancoDeDados, nome_materia):
+        cursor_entrada_mat_prima = bancoDeDados.cursor()
+
+        cursor_entrada_mat_prima.execute(
+            f"SELECT quantidade FROM entrada_materias_primas WHERE produto='{nome_materia}'")
+        t_janela = cursor_entrada_mat_prima.fetchall()
+
+        return t_janela
+
+    # Consulta nome e quantidade da entrada de uma materia prima, e retorna os mesmos
+    def consultarEntrada(Banco_de_dados ,listaFiltrada):
+        lista_nomes_filtrados_entrada = []
+        for adicionarNomesFiltrados in range(len(listaFiltrada)):
+            nomeeQuantidadeProduto = []
+            # aqui vamos adicionar o nome do produto procurado
+            nomeeQuantidadeProduto.append(listaFiltrada[adicionarNomesFiltrados])
+            # aqui vamos adicionar a quantidade da entrada do produto procurado
+            nomeeQuantidadeProduto.append(
+                consultar_entrada_matPrima(Banco_de_dados ,listaFiltrada[adicionarNomesFiltrados]))
+
+            lista_nomes_filtrados_entrada.append(nomeeQuantidadeProduto)
+        return lista_nomes_filtrados_entrada
+
+    # Procurar todas as quantidades com base no nome do produto passado
+    # conexao com banco de dados, so pode encontrar um valor por vez e retornar
+    def consultar_saida_matPrima(bancoDeDados, nome_materia):
+        cursor_entrada_mat_prima = bancoDeDados.cursor()
+
+        cursor_entrada_mat_prima.execute(
+            f"SELECT quantidade FROM saida_materias_primas WHERE produto='{nome_materia}'")
+
+        quantidades = cursor_entrada_mat_prima.fetchall()
+
+        return quantidades
+
+    # Passar valores de ˆˆ consultar_saida_matPrima, ou seja as quantidade de saida
+    # Retornar Quantidades somadas da saida de cada um dos itens
+    def consultarSaida(bancoDeDados, listaFiltrada):
+
+        lista_quantidade_somada_saidas = []
+        for adicionarQuantidadeFiltradas in range(len(listaFiltrada)):
+            QuantidadeProduto = []
+            quantidadesParaSomar = consultar_saida_matPrima(bancoDeDados,
+                                        listaFiltrada[adicionarQuantidadeFiltradas])
+
+            somaTotal = 0
+            for somar in range(len(quantidadesParaSomar)):
+                somaTotal += quantidadesParaSomar[somar][0]
+            lista_quantidade_somada_saidas.append(somaTotal)
+
+        return lista_quantidade_somada_saidas
+
+    def criarMatrizGeral(quantidadeEntrada, quantidadeSaida, listaFiltrada):
+        matrizGeral = []
+        for organizarItenAIten in range(len(listaFiltrada)):
+            matrizSecundaria = []
+            matrizSecundaria.append(listaFiltrada[organizarItenAIten])
+
+            if quantidadeEntrada[organizarItenAIten][1] == None:
+                matrizSecundaria.append(0)
+            else:
+
+                somaTotalEntrada = 0
+                for somarEntrada in range(len(quantidadeEntrada[organizarItenAIten][1])):
+                    somaTotalEntrada += quantidadeEntrada[organizarItenAIten][1][somarEntrada][0]
+                matrizSecundaria.append(somaTotalEntrada)
+
+
+            if estoque_Minimo:
+                if somaTotalEntrada - quantidadeSaida[organizarItenAIten] < estoque_minimo[listaFiltrada[organizarItenAIten]]:
+                    matrizSecundaria.append(quantidadeSaida[organizarItenAIten])
+                    matrizSecundaria.append(somaTotalEntrada - quantidadeSaida[organizarItenAIten])
+                    matrizSecundaria.append(estoque_minimo[listaFiltrada[organizarItenAIten]])
+
+                else:
+                    continue
+
+            else:
+                matrizSecundaria.append(quantidadeSaida[organizarItenAIten])
+                matrizSecundaria.append(somaTotalEntrada - quantidadeSaida[organizarItenAIten])
+
+            matrizGeral.append(matrizSecundaria)
+
+        return matrizGeral
+
+
+    BancoDeDados = abrirBancoDeDados()
+    listaFiltrada= consultarFiltragem(categoria)
+    quantidadeEntrada = consultarEntrada(BancoDeDados, listaFiltrada)
+    quantidadeSaida = consultarSaida(BancoDeDados, listaFiltrada)
+    fecharBancoDeDados(BancoDeDados)
+
+    MatrizGeral = criarMatrizGeral(quantidadeEntrada, quantidadeSaida, listaFiltrada)
+
+
+    string_total = ''
+    for itens in range(len(MatrizGeral)):
+        string = f'Produto: {MatrizGeral[itens][0]},    Estoque Atual: {MatrizGeral[itens][3]},    ' \
+                 f'Estoque Minimo: {MatrizGeral[itens][4]}\n\n'
+        string_total += string
+
+    return string_total
+
+
+def enviar_email_estoque_minimo():
+    # criando email
+    msg = EmailMessage()
+    msg['Subject'] = f'Estoque Minimo do dia' # assunto do email
+    msg['From'] = EMAIL_ADDRESS  # remetente
+    msg['To'] = 'mikael@milmilhasautomotivos.com.br'  # email do destinatario
+    msg.set_content(CorpoEmailEstoqueMinimo())
+
+    # Enviar Email
+    with smtplib.SMTP_SSL(servidor_smtps, porta_smtp) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+
+    print('email de estoque minimo enviado')
+
 
 

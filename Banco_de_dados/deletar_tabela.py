@@ -1,8 +1,9 @@
 import sqlite3
+from link_tabela import link
 
 def excluir_banco_dados(nome_tabela):
     # Conectar ao banco de dados
-    banco = sqlite3.connect('estoque.db')
+    banco = sqlite3.connect(link)
     cursor = banco.cursor()
 
     # Deletar todos os registros da tabela 'produtos'
@@ -14,4 +15,4 @@ def excluir_banco_dados(nome_tabela):
 
 #use com muito cuidado essa funcao
 #ela ira excluir todos os registros dentro da tabela que voce selecionar
-excluir_banco_dados('entrada_materias_primas')
+excluir_banco_dados('')

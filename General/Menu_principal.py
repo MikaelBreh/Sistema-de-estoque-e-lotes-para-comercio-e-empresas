@@ -6,6 +6,7 @@ def Menu_Principal():
     # criando janela do menu principal - com base no import do layout
     janela = menu_principal()
 
+
     # Criar loop para leitura de eventos
     while True:
         window,event,values = sg.read_all_windows()
