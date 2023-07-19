@@ -6,7 +6,8 @@ categorias = ['Caixa', 'Frasco', 'Rótulo', 'Tampa', 'Todos']
 valores = ['Caixa 01', 'Caixa 02', 'Caixa 03', 'Caixa 04', 'Caixa 05',
            'Caixa 07', 'Caixa 08', 'Caixa 09', 'Caixa 10', 'Caixa 11',
            'Caixa 12', 'Caixa 22', 'Caixa 42', 'Caixa 43', 'Caixa 910',
-           'Caixa 910 Reforçada', 'Caixa Muffato', 'Frasco 100ml Automotivo',
+           'Caixa 910 Reforçada', 'Caixa Muffato', 'Caixa 910 Refil',
+           'Frasco 100ml Automotivo',
            'Frasco 100ml Colônias', 'Frasco 100ml Logo',
            'Frasco 60ml Spray Cilíndrico', 'Frasco 60ml Spray Quadrado',
            'Frasco Bisnauto 200ml', 'Frasco Bisnauto 400ml',
@@ -93,26 +94,28 @@ valores = ['Caixa 01', 'Caixa 02', 'Caixa 03', 'Caixa 04', 'Caixa 05',
            'Tampa Lacre Branca', 'Tampa Limpa Parabrisas', 'Tampa Lubrifiador Bike ',
            'Tampa Rosca Azul', 'Tampa Rosca Branca', 'Tampa Rosca Preta', 'Tampa Rosca Verde',
            'Tampa Rosca Vermelha', 'Válvula Mini Trigger Lisa Preta', 'Válvula Pump',
-           'Válvula Spray Branca', 'Válvula Spray Preta ', 'Válvula Trigger Estriada Branca']
+           'Válvula Spray Rosca 18', 'Válvula Spray Rosca 20', 'Válvula Trigger Estriada Rosca 28'
+            ]
 
 estoque_minimo = {
-    'Caixa 01': 0, 'Caixa 02': 0, 'Caixa 03': 0, 'Caixa 04': 0, 'Caixa 05': 0,
-    'Caixa 07': 0, 'Caixa 08': 0, 'Caixa 09': 0, 'Caixa 10': 0, 'Caixa 11': 0,
-    'Caixa 12': 0, 'Caixa 22': 0, 'Caixa 42': 0, 'Caixa 43': 0, 'Caixa 910': 0,
-    'Caixa 910 Reforçada': 0, 'Caixa Muffato': 0, 'Frasco 100ml Automotivo': 0,
-    'Frasco 100ml Colônias': 0, 'Frasco 100ml Logo': 0, 'Frasco 60ml Spray Cilíndrico': 0,
-    'Frasco 60ml Spray Quadrado': 0, 'Frasco Bisnauto 200ml': 0, 'Frasco Bisnauto 400ml': 0,
-    'Frasco Botijão 100ml': 0, 'Frasco Casa Clean 500ml Branco': 0,
-    'Frasco Casa Clean 500ml Cristal': 0, 'Frasco Casa Clean 910ml Branco': 0,
-    'Frasco Casa Clean 910ml Cristal': 0, 'Frasco Casa Clean 910ml Vermelho': 0,
-    'Frasco Coala 210': 0, 'Frasco Coala 260': 0, 'Frasco Detergente': 0,
-    'Frasco Lata Automotiva': 0, 'Frasco Orma 1L Branco': 0, 'Frasco Orma 1L Cristal': 0,
-    'Frasco Pote Cilíndrico 1Kg': 0, 'Frasco Pote Cilíndrico 250g': 0,
+    'Caixa 01': 200, 'Caixa 02': 1000, 'Caixa 03': 300, 'Caixa 04': 200, 'Caixa 05': 1000,
+    'Caixa 07': 0, 'Caixa 08': 300, 'Caixa 09': 100, 'Caixa 10': 200, 'Caixa 11': 500,
+    'Caixa 12': 0, 'Caixa 22': 300, 'Caixa 42': 0, 'Caixa 43': 0, 'Caixa 910': 1500,
+    'Caixa 910 Reforçada': 500, 'Caixa Muffato': 0, 'Caixa 910 Refil': 300,
+    'Frasco 100ml Automotivo': 0,
+    'Frasco 100ml Colônias': 0, 'Frasco 100ml Logo': 6000, 'Frasco 60ml Spray Cilíndrico': 3000,
+    'Frasco 60ml Spray Quadrado': 3000, 'Frasco Bisnauto 200ml': 1000, 'Frasco Bisnauto 400ml': 400,
+    'Frasco Botijão 100ml': 1200, 'Frasco Casa Clean 500ml Branco': 500,
+    'Frasco Casa Clean 500ml Cristal': 500, 'Frasco Casa Clean 910ml Branco': 8000,
+    'Frasco Casa Clean 910ml Cristal': 8000, 'Frasco Casa Clean 910ml Vermelho': 0,
+    'Frasco Coala 210': 3000, 'Frasco Coala 260': 0, 'Frasco Detergente': 0,
+    'Frasco Lata Automotiva': 4400, 'Frasco Orma 1L Branco': 1000, 'Frasco Orma 1L Cristal': 3000,
+    'Frasco Pote Cilíndrico 1Kg': 0, 'Frasco Pote Cilíndrico 250g': 5000,
     'Frasco Pote Fit 60g Branco': 0, 'Frasco Pote Fit 60g Transparente': 0,
-    'Frasco Pote MM 60g': 0, 'Frasco Saboneteira': 0, 'Frasco Shampoo Pet': 0,
-    'Frasco Superauto 500ml Cristal': 0, 'Frasco Superauto 500ml Laranja': 0,
+    'Frasco Pote MM 60g': 6000, 'Frasco Saboneteira': 0, 'Frasco Shampoo Pet': 0,
+    'Frasco Superauto 500ml Cristal': 20000, 'Frasco Superauto 500ml Laranja': 0,
     'Frasco Superauto 500ml Preto': 0, 'Frasco Superauto 500ml Verde': 0,
-    'Frasco Virgem 1L': 0, 'Rótulo Aditivo': 0, 'Rótulo Antiembaçante Spray': 0,
+    'Frasco Virgem 1L': 3000, 'Rótulo Aditivo': 12000, 'Rótulo Antiembaçante Spray': 1000,
     'Rótulo Aromatizante Gel Carro Novo': 4000, 'Rótulo Aromatizante Gel Carro Novo Recorte': 0,
     'Rótulo Aromatizante Gel Citrus': 4000, 'Rótulo Aromatizante Gel Citrus Recorte': 0,
     'Rótulo Aromatizante Gel Lavanda': 4000, 'Rótulo Aromatizante Gel Lavanda Recorte': 0,
@@ -155,7 +158,7 @@ estoque_minimo = {
     'Rotulo Shampoo Branqueador PET': 0, 'Rótulo Silicone Gel 100g': 6000,
     'Rótulo Silicone Gel 1Kg': 0, 'Rótulo Silicone Gel 250g': 8000,
     'Rótulo Silicone Líquido 100ml': 5000, 'Rótulo Silicone Líquido 200ml': 1000,
-    'Tampa Aditivo': 0, 'Tampa Aromatizante Gel Fit Amarela': 0,
+    'Tampa Aditivo': 4000, 'Tampa Aromatizante Gel Fit Amarela': 0,
     'Tampa Aromatizante Gel Fit Azul': 0, 'Tampa Aromatizante Gel Fit Preta': 0,
     'Tampa Aromatizante Gel Fit Rosa': 0, 'Tampa Aromatizante Gel Fit Roxa': 0,
     'Tampa Aromatizante Gel Fit Transaparente': 0, 'Tampa Aromatizante Gel Fit Verde': 0,
@@ -169,17 +172,17 @@ estoque_minimo = {
    'Tampa Cilíndrica 250g Vermelha': 0, 'Tampa Encaixe Lata Automotiva': 0,
    'Tampa Flip Top Bater Preta Aberta': 0, 'Tampa Flip Top Bater Preta Fechada': 0,
    'Tampa Flip Top Rosca Branca': 0, 'Tampa Flip Top Rosca Preta': 0,
-   'Tampa Lacre Branca': 0, 'Tampa Limpa Parabrisas': 0, 'Tampa Lubrifiador Bike ': 0,
+   'Tampa Lacre Branca': 0, 'Tampa Limpa Parabrisas': 0, 'Tampa Lubrifiador Bike ': 500,
    'Tampa Rosca Azul': 0, 'Tampa Rosca Branca': 0, 'Tampa Rosca Preta': 0, 'Tampa Rosca Verde': 0,
    'Tampa Rosca Vermelha': 0, 'Válvula Mini Trigger Lisa Preta': 0, 'Válvula Pump': 0,
-   'Válvula Spray Branca': 0, 'Válvula Spray Preta ': 0, 'Válvula Trigger Estriada Branca': 0
+   'Válvula Spray Rosca 18': 5000, 'Válvula Spray Rosca 20': 5000, 'Válvula Trigger Estriada Rosca 28': 30000
 }
 
 
 forncedores = ['Talula - AlphaPack', 'Aultamp', 'EMDC', 'Fraemb', 'Ganesh', 'Grup SH', 'MacPet',
 'Mamute', 'Master pumps', 'Masterkraft', 'Masterprint', 'Monte Sião', 'MR grafica',
 'Oliver Print', 'Ondulapack', 'PDG', 'PRADA', 'Rotular Print', 'SIEM', 'PlasNox', 'UEFA',
-'Frasco Sul']
+'Frasco Sul', 'Lion Packing']
 
 
 produtos_acabados = ['Lava Autos Concentrado Mil Milhas 500ml',
