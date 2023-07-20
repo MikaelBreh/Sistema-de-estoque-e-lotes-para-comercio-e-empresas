@@ -1,10 +1,11 @@
 from PySimpleGUI import PySimpleGUI as sg
 from General.layout import janela_login
+from Banco_de_dados.consultar_tabela import enviar_email_estoque_minimo
 
 def login(valor=True):
     # Criar a janela inicial de login
     janela1 = janela_login()
-
+    enviar_email_estoque_minimo()
 
     # Criar loop para leitura de eventos
     while True:

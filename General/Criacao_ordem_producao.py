@@ -3,6 +3,7 @@ from General.layout import criar_ordem_producao
 from General.Verificar_data import validar_data
 from Banco_de_dados.Insert import insertSaidaMateriaPrima
 from Banco_de_dados.Validar_lote import verificar_produto_lote, verificarCategoriaMatPrima, validarOrdem, validarEntradaLote
+from General.enviar_emails import enviar_email_acoes_do_sistema
 
 fonte = ('Helvetica', 16)
 
@@ -92,6 +93,16 @@ def Criar_ordem_producao():
         # Se validacoes resultarem em sucesso, habilitar botao de ok(lancar ordem e saida dentro do banco de dados)
         if event == 'OK':
             janela.close()
+
+            enviar_email_acoes_do_sistema('Criacao_ordem_producao', values['Produto'], values['Numero Ordem'],
+                                            int(values['Quantidade']),
+                                            values['Lote_1'], values['Lote_2'],
+                                            values['Lote_3'], values['Lote_4'],
+                                            values['Lote_5'], values['Lote_6'],
+                                            values['Data'],
+                                            values['quant1'], values['quant2'],
+                                            values['quant3'],values['quant4'],values['quant5'],
+                                            values['quant6'])
 
             # Lançar ordem de producao no banco de dados
             insertSaidaMateriaPrima(contarLotesPreenchidos(), values['Produto'], values['Numero Ordem'],

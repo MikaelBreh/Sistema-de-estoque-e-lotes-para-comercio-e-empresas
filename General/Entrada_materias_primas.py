@@ -3,6 +3,7 @@ from General.layout import entrada_mat_primas
 from General.Verificar_data import validar_data
 from Banco_de_dados.Insert import insertEntradaMateriaPrima
 from Banco_de_dados.Validar_lote import verificarCategoriaMatPrima, validar_lote
+from General.enviar_emails import enviar_email_acoes_do_sistema
 
 fonte = ('Helvetica', 16)
 
@@ -58,6 +59,10 @@ def Entrada_Materias_primas():
 
         if event == 'OK':
             janela.close()
+
+            enviar_email_acoes_do_sistema('Entrada_materias_primas', values['Fornecedor'],
+                                      values['Produto'], verificarCategoriaMatPrima(values['Produto']),
+                                      int(values['Quantidade']), values['Lote'], values['Data'])
 
             insertEntradaMateriaPrima('entrada_materias_primas', values['Fornecedor'],
                                       values['Produto'], verificarCategoriaMatPrima(values['Produto']),

@@ -245,6 +245,6 @@ produtos_acabados = ['Lava Autos Concentrado Mil Milhas 500ml',
 'Desingraxante e Limpador Para Bike 400ML',
 'Lava Bikes Pronto Para Uso 40ML',
 'Cera Liquida Para Bikes 400ML (jet cera)',
-'Lava Bikes Concentrado 400ML']
+'Lava Bikes Concentrado 400ML', 'Kits']
 
 

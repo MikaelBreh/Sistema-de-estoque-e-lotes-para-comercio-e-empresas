@@ -5,6 +5,7 @@ from General.login_adm import login_ADM
 from Banco_de_dados.excluiLinha_SQL import Excluir_linha_SQL
 from General.layout import tela_consulta
 from Banco_de_dados.consultar_tabela import buscar_ordem_producao, consultarLotePorOrdemDeProducao as lpop
+from General.enviar_emails import enviar_email_acoes_do_sistema
 
 
 def textoConsultaOrdemProducao(info):
@@ -85,7 +86,13 @@ def excluir_OP():
             permitirExcluir = login_ADM()
             if permitirExcluir:
                 print('usuario pode excluir')
+
+                enviar_email_acoes_do_sistema('Excluir_OP', texto_usuario, values['Lote'])
+
                 Excluir_linha_SQL('criar_ordem_producao', 'numero_Ordem', values['Lote'], True)
+
+                sg.Popup('Ordem excluida com sucesso')
+                janela1.close()
 
 
     janela1.close()

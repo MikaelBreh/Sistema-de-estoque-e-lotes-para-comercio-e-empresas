@@ -4,6 +4,7 @@ from Banco_de_dados.consultar_tabela import consultar_por_lote
 from Banco_de_dados.Validar_lote import validarEntradaLote
 from General.login_adm import login_ADM
 from Banco_de_dados.excluiLinha_SQL import Excluir_linha_SQL
+from General.enviar_emails import enviar_email_acoes_do_sistema
 
 
 def excluir_MP():
@@ -37,13 +38,13 @@ def excluir_MP():
             permitirExcluir = login_ADM()
             if permitirExcluir:
                 print('usuario pode excluir')
+
+                enviar_email_acoes_do_sistema('Excluir_MP', values['Lote'])
+
                 Excluir_linha_SQL('entrada_materias_primas', 'lote', values['Lote'])
 
-
-
-
-
-
+                sg.Popup('Materia prima excluida com sucesso')
+                janela1.close()
 
 
 
